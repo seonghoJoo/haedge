@@ -1,5 +1,6 @@
 package com.right.haedge.exception.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.HashMap;
 import java.util.Map;
-
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -19,13 +20,12 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> requestValidException(MethodArgumentNotValidException ex){
-        Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String errorMsg = error.getDefaultMessage();
-            errors.put(fieldName, errorMsg);
+            log.info("fieldName : {} errorMsg : {} ", fieldName, errorMsg);
         });
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Bad Request", HttpStatus.BAD_REQUEST);
     }
 
 }
