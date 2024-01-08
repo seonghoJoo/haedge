@@ -29,14 +29,20 @@ public class StockDataController {
     private final StockService stockService;
     private final ChannelService channelService;
 
+    /**
+     *  Python으로부터 Stock 입력받는다.
+     * */
     @PostMapping(value = "/stock")
-    public ResponseEntity<Void> stockData(@RequestHeader Map<Object, String> headers, @Valid @RequestBody StockDataReqDTO reqDTO){
+    public ResponseEntity<Void> saveStock(@RequestHeader Map<Object, String> headers, @Valid @RequestBody StockDataReqDTO reqDTO){
 
         stockService.saveRecommendStock(StockSaveDTO.reqToDto(reqDTO));
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
+    /**
+     *  Python으로부터 channelId를 제공받고
+     *  videos를 받으면, 없는 Channel의 video들을 응답해준다.
+     * */
     @GetMapping(value = "/channel")
     public ResponseEntity<ShowChannelVideoListRespDTO> showChannelVideoList(@RequestHeader Map<Object, String> headers,
                                                      @RequestParam(name = "channelId", required = true) String channelId,
