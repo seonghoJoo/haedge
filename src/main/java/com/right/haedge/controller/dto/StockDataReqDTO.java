@@ -23,6 +23,8 @@ public class StockDataReqDTO implements Serializable {
     private String videoId;
     @NotBlank
     private String channelId;
+    @NotBlank
+    private String channelName;
 
     private List<@Valid  Stock> stocks;
 
