@@ -13,4 +13,6 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     @Query("SELECT v.videoHashed FROM Video v WHERE v.channel.channelHashed = :channelHashed AND v.videoHashed NOT IN :videoHashed")
     List<String> findByChannelHashedAndVideoHashedNotIn(@Param("channelHashed") String channelHashed,
                                                         @Param("videoHashed") List<String> videoHashed);
+
+    Optional<Video> findByVideoHashed(String videoHashed);
 }
