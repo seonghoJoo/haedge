@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VideoRepository extends JpaRepository<Video, Long> {
 
-    @Query("SELECT v.videoHashed FROM Video v WHERE v.channel.channelHashed = :channelHashed AND v.videoHashed NOT IN :videoHashed")
-    List<String> findByChannelHashedAndVideoHashedNotIn(@Param("channelHashed") String channelHashed,
+    @Query("SELECT v.videoHashed FROM Video v WHERE v.channel.channelHashed = :channelHashed AND v.videoHashed IN :videoHashed")
+    List<String> findByChannelHashedAndVideoHashedIn(@Param("channelHashed") String channelHashed,
                                                         @Param("videoHashed") List<String> videoHashed);
 
     Optional<Video> findByVideoHashed(String videoHashed);
