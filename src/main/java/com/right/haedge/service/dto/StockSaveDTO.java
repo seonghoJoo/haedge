@@ -14,6 +14,7 @@ public class StockSaveDTO {
 
     private String videoId;
     private String channelId;
+    private String channelName;
     private String thumbnailUrl;
     private List<StockDTO> stocks;
 
@@ -22,10 +23,11 @@ public class StockSaveDTO {
         return StockSaveDTO.builder()
                 .videoId(dto.getVideoId())
                 .channelId(dto.getChannelId())
+                .channelName(dto.getChannelName())
                 .thumbnailUrl(dto.getThumbnailUrl())
                 .stocks(dto.getStocks()
                         .stream()
-                        .map(stock-> new StockDTO(stock.getName(), stock.getWeight(),stock.getTicker(), stock.getReason(), stock.getReason()))
+                        .map(stock-> new StockDTO(stock.getName(), stock.getWeight(),stock.getTicker(), stock.getReason()))
                         .toList())
                 .build();
     }
