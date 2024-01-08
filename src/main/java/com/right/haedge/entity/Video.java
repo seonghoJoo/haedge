@@ -1,25 +1,29 @@
 package com.right.haedge.entity;
 
+import com.right.haedge.service.dto.StockDTO;
+import com.right.haedge.service.dto.StockSaveDTO;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "videos")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Video {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "video_hashed", length = 255)
     private String videoHashed;
-
-    @Column(name = "rgst_dtm")
-    private LocalDateTime rgstDtm;
-
-    @Column(name = "uprd_dtm")
-    private LocalDateTime uprdDtm;
 
     @Column(length = 2047)
     private String thumbnail;
@@ -29,6 +33,6 @@ public class Video {
     private Channel channel;
 
     @OneToMany(mappedBy = "video", fetch = FetchType.LAZY)
-    private Set<RecommendStock> recommendStocks;
+    private List<RecommendStock> recommendStocks;
 
 }

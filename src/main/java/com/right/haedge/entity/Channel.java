@@ -2,13 +2,21 @@ package com.right.haedge.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import java.util.*;
 
 @Entity
 @Table(name = "channels")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Channel {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "channel_hashed", length = 255, unique = true)
@@ -21,5 +29,5 @@ public class Channel {
     private String thumbnail;
 
     @OneToMany(mappedBy = "channel", fetch = FetchType.LAZY)
-    private Set<Video> videos;
+    private List<Video> videos;
 }

@@ -1,19 +1,30 @@
 package com.right.haedge.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.*;
 
 @Entity
 @Table(name = "recommend_stocks")
+@Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class RecommendStock {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "stock_id", nullable = false)
-    private Long stockId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stock_id", nullable = false)
+    private Stock stock;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "video_id", nullable = false)
@@ -27,5 +38,19 @@ public class RecommendStock {
 
     @Column(precision = 10, scale = 2)
     private BigDecimal price;
+
+    @Column(name = "weight")
+    private int weight;
+
+    @OneToMany(mappedBy = "recommendStock")
+    private List<Reason> reasons;
+
+    public void addReason(Reason reason) {
+        if (reasons == null) {
+            reasons = new ArrayList<>();
+        }
+        reasons.add(reason);
+        reason.setRecommendStock(this);
+    }
 
 }
